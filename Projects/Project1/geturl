@@ -1,0 +1,6 @@
+#! /bin/bash
+
+url=$1
+file=$2
+
+curl -s -o "$file" "$url"
