@@ -1,4 +1,4 @@
-// Step #1 Shake off the dust
+// step #1 shake off the dust
 
 #include <stdio.h>
 
