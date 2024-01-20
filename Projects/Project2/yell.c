@@ -1,9 +1,10 @@
-//step #5 write a clone of the cat unix utility
+//step #6 write a utility that turns everything to UPPERCASE
 
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 
 #define BUFFER_SIZE 2048
 
@@ -12,6 +13,11 @@ void read_and_write(int fileDescripter) {
     ssize_t bytesRead;
     
     while ((bytesRead = read(fileDescripter, buffer, BUFFER_SIZE)) > 0) {
+        // Convert each character to uppercase using toupper()
+        for (ssize_t i = 0; i < bytesRead; ++i) {
+            buffer[i] = toupper(buffer[i]);
+        }
+
         ssize_t bytesWritten = write(STDOUT_FILENO, buffer, bytesRead);
 
         if (bytesWritten == -1) {
