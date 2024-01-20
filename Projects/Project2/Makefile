@@ -10,7 +10,7 @@ TARGETS=$(SRCS:.c=)
 all: $(TARGETS)
 
 clean:
-rm -f $(TARGETS)
+	rm -f $(TARGETS)
 
 %: %.c
 	$(CC) $(CCOPTS) -o $@ $< $(LIBS)
