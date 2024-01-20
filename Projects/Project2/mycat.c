@@ -7,28 +7,31 @@
 
 #define BUFFER_SIZE 2048
 
+void read_and_write(int fileDescripter) {
+    char buffer[BUFFER_SIZE];
+    ssize_t bytesRead;
+     // Using while loop to read/write for better memory management
+    while ((bytesRead = read(fileDescripter, buffer, BUFFER_SIZE)) > 0) {
+        ssize_t bytesWritten = write(STDOUT_FILENO, buffer, bytesRead);
+
+        if (bytesWritten == -1) {
+            perror("Error writing to standard output");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    if (bytesRead == -1) {
+        perror("Error reading from standard input");
+        exit(EXIT_FAILURE);
+    }
+}
+
 int main(int argc, char* argv[]) {
 
     if (argc == 1) {
         int fd = STDIN_FILENO;
 
-        char buffer[BUFFER_SIZE];
-        ssize_t bytesRead;
-
-        // Using while loop to read/write for better memory management
-        while ((bytesRead = read(fd, buffer, BUFFER_SIZE)) > 0) {
-            ssize_t bytesWritten = write(STDOUT_FILENO, buffer, bytesRead);
-
-            if (bytesWritten == -1) {
-                perror("Error writing to standard output");
-                exit(EXIT_FAILURE);
-            }
-        }
-
-        if (bytesRead == -1) {
-            perror("Error reading from standard input");
-            exit(EXIT_FAILURE);
-        }
+        read_and_write(fd);
 
         return 0;
 
@@ -41,32 +44,10 @@ int main(int argc, char* argv[]) {
                 exit(EXIT_FAILURE);
             }
 
-            // read file
-            char buffer[BUFFER_SIZE];
-            ssize_t bytesRead;
-            // using while loop to read/write for better memory management
-            while ((bytesRead = read(fd, buffer, BUFFER_SIZE)) > 0) {
-                ssize_t bytesWritten = write(STDOUT_FILENO, buffer, bytesRead);
-
-                if (bytesWritten == -1) {
-                    perror("Error writing to standard output");
-                    close(fd);
-                    exit(EXIT_FAILURE);
-                }
-            }
-
-            if (bytesRead == -1) {
-                perror("Error reading from file");
-                close(fd);
-                exit(EXIT_FAILURE);
-            }
+            read_and_write(fd);
 
             //close file
-            if (close(fd) == -1) {
-                perror("Error closing file");
-                exit(EXIT_FAILURE);
-            }
-        
+            close(fd);
 
         }
 
