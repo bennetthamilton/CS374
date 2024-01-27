@@ -1,3 +1,7 @@
+// Name: Bennett Hamilton
+// Date: 01/27/24
+// Description: A Mega Underwhelming Shell, or "mush," shell program that can execute commands and change directories
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
