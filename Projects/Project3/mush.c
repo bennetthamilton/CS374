@@ -69,6 +69,11 @@ int main() {
             continue;
         }
 
+        // if command is exit, exit the program
+        if (strcmp(args[0], "exit") == 0) {
+            exit(EXIT_SUCCESS);
+        }
+
         if (args[0] == NULL) {
             continue; // Empty command, go to the next iteration
         }
@@ -76,7 +81,6 @@ int main() {
        runCommand(args);
 
     }
-
 
     return 0;
 }
