@@ -24,16 +24,22 @@ int main(int argc, char *argv[]) {
     }
 
     // fork a child process
+    if ((child_pid = fork()) == -1) {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
 
     // child process (run wc)
+    if (child_pid == 0) {
         // duplicate read end of pipe to stdin
         // close write end of pipe
         // run wc
-
-    // parent process (run ls)
+    } else {
+        // parent process (run ls)
         // duplicate write end of pipe to stdout
         // close read end of pipe
         // run ls
+    }
 
     return 0;
 }
