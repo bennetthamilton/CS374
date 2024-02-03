@@ -9,8 +9,8 @@
 
 int main(int argc, char *argv[]) {
     // argument check
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <directory>\n", argv[0]);
+    if (argc < 2) {
+        perror("Usage: proj4 <directory>");
         exit(EXIT_FAILURE);
     }
 
