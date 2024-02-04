@@ -1,0 +1,9 @@
+total 168
+drwxr-xr-x  8 bennetthamilton  staff    256 Feb  3 16:05 .
+drwxr-xr-x  7 bennetthamilton  staff    224 Feb  3 16:04 ..
+-rw-r--r--  1 bennetthamilton  staff    185 Feb  3 15:04 Makefile
+---x------  1 bennetthamilton  staff      0 Feb  3 16:05 foo.txt
+-rwxr-xr-x  1 bennetthamilton  staff  33392 Feb  3 16:04 proj4
+-rw-r--r--  1 bennetthamilton  staff   1319 Feb  3 15:47 proj4.c
+-rwxr-xr-x  1 bennetthamilton  staff  33184 Feb  3 16:04 redirout
+-rw-r--r--  1 bennetthamilton  staff    767 Feb  3 16:01 redirout.c
