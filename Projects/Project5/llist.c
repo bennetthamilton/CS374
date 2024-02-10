@@ -91,6 +91,11 @@ int main(int argc, char *argv[]) {
 
     // parse command line arguments
     for (int i = 1; i < argc - 1; i++) {
+        if (i + 1 >= argc) {
+            printf("Error: Incomplete command at the end of arguments.\n");
+            break;
+        }
+        
         char *cmd = argv[i];
         int value = atoi(argv[i+1]);
         // ref: https://www.programiz.com/c-programming/library-function/string.h/strcmp#google_vignette
