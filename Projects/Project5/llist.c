@@ -33,6 +33,9 @@ struct node *llist_delete_head(struct node **head) {
 void llist_insert_tail(struct node **head, struct node *n) {
     if (n == NULL) {
         return;
+    } elif (*head == NULL) {
+        *head = n;
+        return;
     }
 
     struct node *current = *head;
@@ -95,9 +98,10 @@ int main(int argc, char *argv[]) {
             printf("Error: Incomplete command at the end of arguments.\n");
             break;
         }
-        
+
         char *cmd = argv[i];
         int value = atoi(argv[i+1]);
+
         // ref: https://www.programiz.com/c-programming/library-function/string.h/strcmp#google_vignette
         if (strcmp(cmd, "ih") == 0) { // insert node at head
             struct node *n = node_alloc(value);
