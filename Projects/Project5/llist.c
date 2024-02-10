@@ -93,31 +93,35 @@ int main(int argc, char *argv[]) {
     struct node *head = NULL;
 
     // parse command line arguments
-    for (int i = 1; i < argc - 1; i++) {
+    for (int i = 1; i < argc; i++) {
         if (i + 1 >= argc) {
             printf("Error: Incomplete command at the end of arguments.\n");
             break;
         }
 
         char *cmd = argv[i];
-        int value = atoi(argv[i+1]);
+        int value = atoi(argv[i++]);
 
         // ref: https://www.programiz.com/c-programming/library-function/string.h/strcmp#google_vignette
-        if (strcmp(cmd, "ih") == 0) { // insert node at head
+        if (strcmp(cmd, "ih") == 0 && i + 1 < argc) { // insert node at head
             struct node *n = node_alloc(value);
             llist_insert_head(&head, n);
-        } else if (strcmp(cmd, "dh") == 0) { // delete node at head
+
+        } else if (strcmp(cmd, "dh") == 0) {                    // delete node at head
             struct node *deleted = llist_delete_head(&head);
             if (deleted != NULL) {
                 node_free(deleted); // otherwise does nothing
             }
-        } else if (strcmp(cmd, "it") == 0) { // insert node at tail
+        } else if (strcmp(cmd, "it") == 0 && i + 1 < argc) {    // insert node at tail
             struct node *n = node_alloc(value);
             llist_insert_tail(&head, n);
-        } else if (strcmp(cmd, "p") == 0) { // print list
+
+        } else if (strcmp(cmd, "p") == 0) {                     // print list
             llist_print(head);
-        } else if (strcmp(cmd, "f") == 0) { // free entire list
+
+        } else if (strcmp(cmd, "f") == 0) {                     // free entire list
             llist_free(&head);
+
         } else {                            // error check for invalid command
             printf("Invalid command: %s\n", cmd);
         }
