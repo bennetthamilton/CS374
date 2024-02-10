@@ -64,9 +64,9 @@ int main(int argc, char *argv[]) {
             struct node *n = node_alloc(value);
             llist_insert_tail(&head, n);
         } else if (strcmp(cmd, "p") == 0) { // print list
-
+            llist_print(head);
         } else if (strcmp(cmd, "f") == 0) { // free entire list
-
+            llist_free(&head);
         } else {                            // error check for invalid command
             printf("Invalid command: %s\n", cmd);
         }
