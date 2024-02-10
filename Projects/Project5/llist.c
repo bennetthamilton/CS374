@@ -41,7 +41,13 @@ int main(int argc, char *argv[]) {
     struct node *head = NULL;
 
     // parse command line arguments
-
+    for (int i = 1; i < argc; i++) {
+        // insert node at head
+        // insert node at tail
+        // delete node at head (nothing if empty)
+        // free entire list
+        // print list
+    }
 
     return 0;
 }
