@@ -36,13 +36,15 @@ void llist_insert_tail(struct node **head, struct node *n) {
     } elif (*head == NULL) {
         *head = n;
         return;
+    } else {
+        struct node *current = *head;
+        while (current->next != NULL) { // find last node
+            current = current->next;
+        }
+        current->next = n;
     }
 
-    struct node *current = *head;
-    while (current->next != NULL) { // find last node
-        current = current->next;
-    }
-    current->next = n;
+    
 }
 
 // print list to standard output in the format: "1 -> 2 -> 3" or "[empty]"
