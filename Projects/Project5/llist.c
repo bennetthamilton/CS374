@@ -5,6 +5,7 @@
 #include "llist.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // insert node at head, previously allocated
 void llist_insert_head(struct node **head, struct node *n) {
