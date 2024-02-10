@@ -53,9 +53,10 @@ int main(int argc, char *argv[]) {
         int value = atoi(argv[i+1]);
         // ref: https://www.programiz.com/c-programming/library-function/string.h/strcmp#google_vignette
         if (strcmp(cmd, "ih") == 0) { // insert node at head
-
+            struct node *n = node_alloc(value);
+            llist_insert_head(&head, n);
         } else if (strcmp(cmd, "dh") == 0) { // delete node at head
-
+            
         } else if (strcmp(cmd, "it") == 0) { // insert node at tail
 
         } else if (strcmp(cmd, "p") == 0) { // print list
