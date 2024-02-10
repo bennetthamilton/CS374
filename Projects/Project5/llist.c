@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
     struct node *head = NULL;
 
     // parse command line arguments
-    for (int i = 1; i < argc; i++) {
+    for (int i = 1; i < argc - 1; i++) {
         char *cmd = argv[i];
         int value = atoi(argv[i+1]);
         // ref: https://www.programiz.com/c-programming/library-function/string.h/strcmp#google_vignette
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
         } else if (strcmp(cmd, "f") == 0) { // free entire list
             llist_free(&head);
         } else {                            // error check for invalid command
-            printf("Invalid command: %s\n", cmd);
+            printf(stderr, "Invalid command: %s\n", cmd);
         }
     }
 
