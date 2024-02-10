@@ -94,16 +94,12 @@ int main(int argc, char *argv[]) {
 
     // parse command line arguments
     for (int i = 1; i < argc; i++) {
-        if (i + 1 >= argc) {
-            printf("Error: Incomplete command at the end of arguments.\n");
-            break;
-        }
 
         char *cmd = argv[i];
-        int value = atoi(argv[i++]);
 
         // ref: https://www.programiz.com/c-programming/library-function/string.h/strcmp#google_vignette
         if (strcmp(cmd, "ih") == 0 && i + 1 < argc) { // insert node at head
+            int value = atoi(argv[++i]);
             struct node *n = node_alloc(value);
             llist_insert_head(&head, n);
 
@@ -113,6 +109,7 @@ int main(int argc, char *argv[]) {
                 node_free(deleted); // otherwise does nothing
             }
         } else if (strcmp(cmd, "it") == 0 && i + 1 < argc) {    // insert node at tail
+            int value = atoi(argv[++i]);
             struct node *n = node_alloc(value);
             llist_insert_tail(&head, n);
 
