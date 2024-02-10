@@ -61,7 +61,8 @@ int main(int argc, char *argv[]) {
                 node_free(deleted); // otherwise does nothing
             }
         } else if (strcmp(cmd, "it") == 0) { // insert node at tail
-            
+            struct node *n = node_alloc(value);
+            llist_insert_tail(&head, n);
         } else if (strcmp(cmd, "p") == 0) { // print list
 
         } else if (strcmp(cmd, "f") == 0) { // free entire list
