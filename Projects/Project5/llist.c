@@ -18,7 +18,7 @@ void llist_insert_head(struct node **head, struct node *n) {
 
 // delete node at head, return pointer to node or NULL if list is empty
 struct node *llist_delete_head(struct node **head) {
-    if (*head = NULL) {
+    if (*head == NULL) {
         return NULL;  
     }
 
@@ -69,7 +69,12 @@ void llist_free(struct node **head) {
 
 // allocate new node with specified value and next pointer set to NULL
 struct node *node_alloc(int value) {
-    return NULL;
+    struct node *new_node = (struct node *)malloc(sizeof(struct node));
+    if (new_node != NULL) {
+        new_node->value = value;
+        new_node->next = NULL;
+    }
+    return new_node;
 }
 
 // free node
