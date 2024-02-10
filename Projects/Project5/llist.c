@@ -33,7 +33,7 @@ struct node *llist_delete_head(struct node **head) {
 void llist_insert_tail(struct node **head, struct node *n) {
     if (n == NULL) {
         return;
-    } elif (*head == NULL) {
+    } else if (*head == NULL) {
         *head = n;
         return;
     } else {
@@ -43,8 +43,6 @@ void llist_insert_tail(struct node **head, struct node *n) {
         }
         current->next = n;
     }
-
-    
 }
 
 // print list to standard output in the format: "1 -> 2 -> 3" or "[empty]"
