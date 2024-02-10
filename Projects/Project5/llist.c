@@ -10,8 +10,8 @@ void llist_insert_head(struct node **head, struct node *n) {
 
 }
 
-void llist_delete_head(struct node **head) {
-
+struct node *llist_delete_head(struct node **head) {
+    return NULL;  
 }
 
 void llist_insert_tail(struct node **head, struct node *n) {
@@ -22,23 +22,25 @@ void llist_print(struct node *head) {
 
 }
 
-void llist_free(struct llist *list) {
+void llist_free(struct node **head) {
 
 }
 
-void node_alloc(int value) {
-
+struct node *node_alloc(int value) {
+    return NULL;
 }
 
 void node_free(struct node *n) {
-
+    free(n);
 }
 
 
 int main(int argc, char *argv[]) {
 
-    // parse command line arguments
+    // set head pointer
+    struct node *head = NULL;
 
+    // parse command line arguments
 
 
     return 0;
