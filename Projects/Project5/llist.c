@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
         } else if (strcmp(cmd, "f") == 0) { // free entire list
             llist_free(&head);
         } else {                            // error check for invalid command
-            printf(stderr, "Invalid command: %s\n", cmd);
+            printf("Invalid command: %s\n", cmd);
         }
     }
 
