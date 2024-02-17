@@ -2,6 +2,6 @@
 #define ALLOCATOR_H
 
 void *mymalloc(int size);
-void myfree(void *p);
+// void myfree(void *p);
 
 #endif

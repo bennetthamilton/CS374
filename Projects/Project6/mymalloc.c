@@ -5,6 +5,8 @@
 #include "mymalloc.h"
 #include <stddef.h>
 #include <sys/mman.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 // alignment and pointer macros
 #define ALIGNMENT 16   // Must be power of 2
@@ -30,7 +32,7 @@ void initialize_memory() {
     if (heap == MAP_FAILED) {
         // Handle the error, print an error message or exit the program
         perror("Error initializing memory");
-        exit();
+        exit(EXIT_FAILURE);
     }
 
     // create first block
@@ -72,9 +74,9 @@ void *mymalloc(int size) {
 
 }
 
-void myfree() {
-    // TODO: part 2 of project
-}
+// void myfree() {
+//     // TODO: part 2 of project
+// }
 
 void print_data(void){
     struct block *b = head;
@@ -103,6 +105,6 @@ int main() {
     void *p;
 
     print_data();
-    p = myalloc(64);
+    p = mymalloc(64);
     print_data();
 }
