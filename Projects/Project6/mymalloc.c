@@ -48,7 +48,7 @@ void initialize_memory() {
 }
 
 // function to allocate memory
-void *mymalloc(int size) {
+void *myalloc(int size) {
 
     // initialize memory if not already
     if (head == NULL) {
@@ -110,6 +110,8 @@ int main() {
     void *p;
 
     print_data();
-    p = mymalloc(64);
+    p = myalloc(16);
     print_data();
+    p = myalloc(16);
+    printf("%p\n", p);
 }
