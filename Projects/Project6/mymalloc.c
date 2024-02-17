@@ -10,6 +10,7 @@
 
 // alignment and pointer macros
 #define ALIGNMENT 16   // Must be power of 2
+#define HEAP_SIZE 1024  // 1KB
 #define GET_PAD(x) ((ALIGNMENT - 1) - (((x) - 1) & (ALIGNMENT - 1)))
 #define PADDED_SIZE(x) ((x) + GET_PAD(x))
 #define PTR_OFFSET(p, offset) ((void*)((char *)(p) + (offset)))
@@ -35,10 +36,12 @@ void initialize_memory() {
         exit(EXIT_FAILURE);
     }
 
+    // get size of data
+    int data_size = HEAP_SIZE - PADDED_SIZE(sizeof(struct block));
+    
     // create first block
-    int padded_struct_block_size = PADDED_SIZE(sizeof(struct block));
     head = (struct block *)heap;
-    head->size = sizeof(struct block);
+    head->size = data_size;
     head->in_use = 0;
     head->next = NULL;
 }
