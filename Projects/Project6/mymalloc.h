@@ -3,7 +3,7 @@
 
 #include "llist.h"
 
-void *myalloc(int size);
+void *mymalloc(int size);
 void myfree(void *p);
 
 #endif
