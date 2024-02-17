@@ -98,6 +98,11 @@ void print_data(void){
     printf("\n");
 }
 
+// main function for testing
 int main() {
-    return 0;
+    void *p;
+
+    print_data();
+    p = myalloc(64);
+    print_data();
 }
