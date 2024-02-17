@@ -26,6 +26,7 @@ static struct block *head = NULL;
 
 // function to initialize memory
 void initialize_memory() {
+
     // initialize big block of memory using mmap
     void *heap = mmap(NULL, 1024, PROT_READ|PROT_WRITE, MAP_ANON|MAP_PRIVATE, -1, 0);
 
@@ -48,6 +49,7 @@ void initialize_memory() {
 
 // function to allocate memory
 void *mymalloc(int size) {
+
     // initialize memory if not already
     if (head == NULL) {
         initialize_memory();
@@ -65,8 +67,8 @@ void *mymalloc(int size) {
         if (!current->in_use && current->size >= padded_size) {
             // TODO: (later) if the block has more space than needed, split it
 
-            current->in_use = 1;            // mark the block as in use
-            return (void *)(current + 1);   // return pointer to user data
+            current->in_use = 1;                                             // mark the block as in use
+            return PTR_OFFSET(current, PADDED_SIZE(sizeof(struct block)));   // return pointer to user data
         }
 
         current = current->next;
