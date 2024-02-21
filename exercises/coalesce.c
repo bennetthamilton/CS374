@@ -151,8 +151,8 @@ void llist_free(struct node *head)
  */
 void coalesce_space(struct node *head)
 {
-    // check for empty list
-    if (head == NULL)               
+    // check for empty list or single node
+    if (head == NULL || head->next == NULL)               
         return;
 
     // set current node to head
