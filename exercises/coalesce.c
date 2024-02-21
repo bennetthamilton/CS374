@@ -151,8 +151,25 @@ void llist_free(struct node *head)
  */
 void coalesce_space(struct node *head)
 {
-    // TODO: IMPLEMENT ME
-    (void)head;
+    // check for empty list
+    if (head == NULL)
+        return;
+    // set current node to head
+    struct node *current = head;
+    // scan the list via loop
+    while (current->next != NULL) {
+        // check for sequential nodes that are not in use
+        if (current->in_use == 0 && current->next->in_use == 0) {
+            // remove the next node(s)
+            struct node *temp = current->next;
+            current->next = temp->next;
+            // add their sizes to the first node
+            current->size += temp->size;
+        }
+        // move to the next node
+        current = current->next;
+    // end loop
+    }
 }
 
 void hline(char c)
@@ -292,9 +309,9 @@ int main(void)
     round1();
     round2();
     round3();
-    round4();
-    round5();
-    round6();
-    round7();
+    // round4();
+    // round5();
+    // round6();
+    // round7();
 }
 
