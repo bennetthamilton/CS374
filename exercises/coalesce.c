@@ -165,6 +165,7 @@ void coalesce_space(struct node *head)
             struct node *temp = current->next;      // remove the next node(s)
             current->next = temp->next;
             current->size += temp->size;            // add their sizes to the first node
+            node_free(temp);                        // free the removed node(s)
         } else {    // move to the next node
             current = current->next;
         }
