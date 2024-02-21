@@ -303,6 +303,47 @@ void round7(void)
     llist_print(head);
 }
 
+void round8(void)
+{
+    header("Round 8");
+
+    struct node *head = NULL;
+    
+    llist_insert_head(&head, node_new(6, 0));
+    llist_insert_head(&head, node_new(5, 0));
+    llist_insert_head(&head, node_new(10, 1));
+    llist_insert_head(&head, node_new(8, 0));
+    llist_insert_head(&head, node_new(9, 0));
+    llist_insert_head(&head, node_new(6, 0));
+
+    llist_print(head);
+
+    coalesce_space(head);
+
+    llist_print(head);
+}
+
+void round9(void)
+{
+    header("Round 8");
+
+    struct node *head = NULL;
+    
+    llist_insert_head(&head, node_new(6, 0));
+    llist_insert_head(&head, node_new(6, 0));
+    llist_insert_head(&head, node_new(5, 0));
+    llist_insert_head(&head, node_new(10, 1));
+    llist_insert_head(&head, node_new(8, 0));
+    llist_insert_head(&head, node_new(9, 0));
+    llist_insert_head(&head, node_new(6, 0));
+
+    llist_print(head);
+
+    coalesce_space(head);
+
+    llist_print(head);
+}
+
 int main(void)
 {
     round1();
@@ -312,5 +353,7 @@ int main(void)
     round5();
     round6();
     round7();
+    round8();
+    round9();
 }
 
