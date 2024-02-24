@@ -67,7 +67,7 @@ void *find_space_and_split(struct block *head, int new_size) {
                 current->in_use = 1;
 
                 struct block *new_block = PTR_OFFSET(current, PADDED_SIZE(sizeof(struct block)));
-                new_block->size = size_diff;
+                new_block->size = size_diff - PADDED_SIZE(sizeof(struct block));
                 new_block->in_use = 0;
 
                 current->size = new_size;
@@ -93,7 +93,7 @@ void *myalloc(int size) {
     }
 
     // get padded size
-    int padded_size = PADDED_SIZE(sizeof(struct block)) + PADDED_SIZE(size);
+    int padded_size = PADDED_SIZE(size);
 
     // find first block that is not in use and has enough space
     void *allocated_block = find_space_and_split(head, padded_size);
@@ -134,11 +134,9 @@ void print_data(void){
 
 // main function for testing
 int main() {
-    void *p;
-
-    p = myalloc(512);
-    print_data();
-
-    myfree(p);
-    print_data();
+    myalloc(10); print_data();
+    myalloc(20); print_data();
+    myalloc(30); print_data();
+    myalloc(40); print_data();
+    myalloc(50); print_data();
 }
