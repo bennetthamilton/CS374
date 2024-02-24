@@ -62,11 +62,13 @@ void *find_space_and_split(struct block *head, int new_size) {
                 }
 
                 int size_diff = current->size - new_size;
+                
+                int new_current_size = current->size - size_diff;
 
-                current->size = new_size;
+                current->size = new_current_size;
                 current->in_use = 1;
 
-                struct block *new_block = PTR_OFFSET(current, PADDED_SIZE(sizeof(struct block)));
+                struct block *new_block = PTR_OFFSET(current, PADDED_SIZE(sizeof(struct block)) + new_current_size);
                 new_block->size = size_diff - PADDED_SIZE(sizeof(struct block));
                 new_block->in_use = 0;
 
@@ -119,8 +121,8 @@ void print_data(void){
     }
 
     while (b != NULL) {
-        // Uncomment the following line if you want to see the pointer values
-        //printf("[%p:%d,%s]", b, b->size, b->in_use? "used": "free");
+        // // Uncomment the following line if you want to see the pointer values
+        // printf("[%p:%d,%s]", b, b->size, b->in_use? "used": "free");
         printf("[%d,%s]", b->size, b->in_use? "used": "free");
         if (b->next != NULL) {
             printf(" -> ");
@@ -134,9 +136,13 @@ void print_data(void){
 
 // main function for testing
 int main() {
-    myalloc(10); print_data();
-    myalloc(20); print_data();
-    myalloc(30); print_data();
-    myalloc(40); print_data();
-    myalloc(50); print_data();
+    void *p;
+
+    myalloc(10);     print_data();
+    p = myalloc(20); print_data();
+    myalloc(30);     print_data();
+    myfree(p);       print_data();
+    myalloc(40);     print_data();
+    myalloc(10);     print_data();
+
 }
