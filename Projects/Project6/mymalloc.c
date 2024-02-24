@@ -47,9 +47,43 @@ void initialize_memory() {
     head->next = NULL;
 }
 
-// function to allocate memory
-void *myalloc(int size) {
+void *find_space_and_split(struct block *head, int new_size) {
+    struct block *current = head;
 
+    while (current != NULL) {
+        // Look for blocks not in use
+        if (!current->in_use) {
+
+            if (current->size >= new_size) {
+
+                if (current->size == new_size) {
+                    current->in_use = 1;
+                    return PTR_OFFSET(current, PADDED_SIZE(sizeof(struct block)));
+                }
+
+                int size_diff = current->size - new_size;
+
+                current->size = new_size;
+                current->in_use = 1;
+
+                struct block *new_block = PTR_OFFSET(current, PADDED_SIZE(sizeof(struct block)));
+                new_block->size = size_diff;
+                new_block->in_use = 0;
+                new_block->next = current->next;
+                current->next = new_block;
+
+                return PTR_OFFSET(current, PADDED_SIZE(sizeof(struct block))); 
+            }   
+            
+        }
+
+        current = current->next;
+    }
+
+    return NULL;
+}
+
+void *myalloc(int size) {
     // initialize memory if not already
     if (head == NULL) {
         initialize_memory();
@@ -58,30 +92,20 @@ void *myalloc(int size) {
     // get padded size
     int padded_size = PADDED_SIZE(size);
 
-    // start at beginning of memory block
-    struct block *current = head;
-
     // find first block that is not in use and has enough space
-    while (current) {
-        // check if the block is not in use and has enough space
-        if (!current->in_use && current->size >= padded_size) {
-            // TODO: (later) if the block has more space than needed, split it
-
-            current->in_use = 1;                                             // mark the block as in use
-            return PTR_OFFSET(current, PADDED_SIZE(sizeof(struct block)));   // return pointer to user data
-        }
-
-        current = current->next;
-    }
+    void *allocated_block = find_space_and_split(head, padded_size);
 
     // no block found
-    return NULL;
-
+    return allocated_block;
 }
 
-// void myfree() {
-//     // TODO: part 2 of project
-// }
+void myfree(void *ptr) {
+    // subtract the offset to get the pointer to the corresponding block structure
+    struct block *block_to_free = (struct block *)((char *)ptr - PADDED_SIZE(sizeof(struct block)));
+
+    // mark the block as not in use
+    block_to_free->in_use = 0;
+}
 
 void print_data(void){
     struct block *b = head;
@@ -107,11 +131,9 @@ void print_data(void){
 
 // main function for testing
 int main() {
-    void *p;
-
-    print_data();
-    p = myalloc(16);
-    print_data();
-    p = myalloc(16);
-    printf("%p\n", p);
+    myalloc(10); print_data();
+    myalloc(20); print_data();
+    myalloc(30); print_data();
+    myalloc(40); print_data();
+    myalloc(50); print_data();
 }
