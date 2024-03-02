@@ -101,10 +101,10 @@ void coalesce_space(struct block *head)
     while (current->next != NULL) { 
         // check for sequential nodes that are not in use
         if (current->in_use == 0 && current->next->in_use == 0) {
-            struct block *temp = current->next;     // remove the next node(s)
+            struct block *temp = current->next;         // remove the next node(s)
             current->next = temp->next;
-            current->size += temp->size;            // add their sizes to the first node
-            myfree(temp);                           // free the removed node(s)
+            current->size += temp->size + ALIGNMENT;    // add their sizes to the first node
+            myfree(temp);                               // free the removed node(s)
         } else {    // move to the next node
             current = current->next;
         }
@@ -165,10 +165,12 @@ void print_data(void){
 
 // main function for testing
 int main() {
-    void *p;
+    void *p, *q;
 
     p = myalloc(10); print_data();
+    q = myalloc(20); print_data();
 
     myfree(p); print_data();
+    myfree(q); print_data();
 
 }
