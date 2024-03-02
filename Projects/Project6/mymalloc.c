@@ -88,6 +88,29 @@ void *find_space_and_split(struct block *head, int new_size) {
     return NULL;
 }
 
+void coalesce_space(struct block *head)
+{
+    // check for empty list or single node
+    if (head == NULL || head->next == NULL)               
+        return;
+
+    // set current node to head
+    struct block *current = head;    
+    
+    // scan the list via loop
+    while (current->next != NULL) { 
+        // check for sequential nodes that are not in use
+        if (current->in_use == 0 && current->next->in_use == 0) {
+            struct block *temp = current->next;     // remove the next node(s)
+            current->next = temp->next;
+            current->size += temp->size;            // add their sizes to the first node
+            node_free(temp);                        // free the removed node(s)
+        } else {    // move to the next node
+            current = current->next;
+        }
+    }
+}
+
 void *myalloc(int size) {
     // initialize memory if not already
     if (head == NULL) {
@@ -99,6 +122,9 @@ void *myalloc(int size) {
 
     // find first block that is not in use and has enough space
     void *allocated_block = find_space_and_split(head, padded_size);
+
+    // coalesce free space after allocation
+    coalesce_space(head);
 
     // no block found
     return allocated_block;
