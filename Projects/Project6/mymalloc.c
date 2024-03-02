@@ -104,7 +104,7 @@ void coalesce_space(struct block *head)
             struct block *temp = current->next;     // remove the next node(s)
             current->next = temp->next;
             current->size += temp->size;            // add their sizes to the first node
-            node_free(temp);                        // free the removed node(s)
+            free(temp);                             // free the removed node(s)
         } else {    // move to the next node
             current = current->next;
         }
@@ -164,11 +164,8 @@ void print_data(void){
 int main() {
     void *p;
 
-    myalloc(10);     print_data();
-    p = myalloc(20); print_data();
-    myalloc(30);     print_data();
-    myfree(p);       print_data();
-    myalloc(40);     print_data();
-    myalloc(10);     print_data();
+    p = myalloc(10); print_data();
+
+    myfree(p); print_data();
 
 }
