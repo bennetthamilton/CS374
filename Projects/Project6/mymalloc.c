@@ -104,7 +104,7 @@ void coalesce_space(struct block *head)
             struct block *temp = current->next;     // remove the next node(s)
             current->next = temp->next;
             current->size += temp->size;            // add their sizes to the first node
-            free(temp);                             // free the removed node(s)
+            myfree(temp);                           // free the removed node(s)
         } else {    // move to the next node
             current = current->next;
         }
@@ -136,6 +136,9 @@ void myfree(void *ptr) {
 
     // mark the block as not in use
     block_to_free->in_use = 0;
+
+    // coalesce free space after deallocation
+    coalesce_space(head);
 }
 
 void print_data(void){
