@@ -170,7 +170,7 @@ int main() {
     p = myalloc(10); print_data();
     q = myalloc(20); print_data();
 
-    myfree(p); print_data();
     myfree(q); print_data();
+    myfree(p); print_data();
 
 }
