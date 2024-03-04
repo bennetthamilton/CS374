@@ -25,8 +25,7 @@ char *ppage_get_start_addr(int ppage_num)
  */
 int get_block_offset(int block_num)
 {
-    // TODO
-    (void)block_num; return 0;
+    return block_num * BLOCK_SIZE;
 }
 
 /*
@@ -36,8 +35,7 @@ int get_block_offset(int block_num)
  */
 int block_seek(int fd, int block_num)
 {
-    // TODO
-    (void)fd; (void)block_num; return 0;
+    return lseek(fd, get_block_offset(block_num), SEEK_SET);
 }
 
 /*
@@ -47,8 +45,7 @@ int block_seek(int fd, int block_num)
  */
 int block_write(int fd, int block_num, char *data)
 {
-    // TODO
-    (void)fd; (void)block_num; (void)data; return 0;
+    return write(fd, data, get_block_offset(block_num));
 }
 
 /*
@@ -58,8 +55,7 @@ int block_write(int fd, int block_num, char *data)
  */
 int block_read(int fd, int block_num, char *data)
 {
-    // TODO
-    (void)fd; (void)block_num; (void)data; return 0;
+    return read(fd, data, get_block_offset(block_num));
 }
 
 /*
@@ -70,8 +66,7 @@ int block_read(int fd, int block_num, char *data)
  */
 int swap_open(void)
 {
-    // TODO
-    return 0;
+    return open(SWAP_FILE, O_RDWR | O_CREAT | O_TRUNC, 0600);
 }
 
 /*
@@ -91,8 +86,16 @@ void swap_out(int fd, int ppage_num, int block_num)
 {
     printf("SWAP OUT: mem %d -> %d disk\n", ppage_num, block_num);
 
-    // TODO
-    (void)fd; (void)block_num;
+    // read the page from memory
+    char *ppage_start = ppage_get_start_addr(ppage_num);
+
+    // write the page to disk
+    block_seek(fd, block_num);
+    block_write(fd, block_num, ppage_start);
+
+    // clear the page in memory
+    for (int i = 0; i < PAGE_SIZE; i++)
+        ppage_start[i] = 0;
 }
 
 /*
@@ -102,8 +105,16 @@ void swap_in(int fd, int ppage_num, int block_num)
 {
     printf("SWAP IN : mem %d <- %d disk\n", ppage_num, block_num);
 
-    // TODO
-    (void)fd; (void)block_num;
+    // read the page from disk
+    char *ppage_start = ppage_get_start_addr(ppage_num);
+
+    // write the page to memory
+    block_seek(fd, block_num);
+    block_read(fd, block_num, ppage_start);
+
+    // clear the page on disk
+    for (int i = 0; i < PAGE_SIZE; i++)
+        ppage_start[i] = 0;
 }
 
 /*
