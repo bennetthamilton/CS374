@@ -27,7 +27,7 @@ void create_file(void)
 void increment_data_a_lot(long long int *data)
 {
     for (int i = 0; i < COUNT; i++) {
-        int t = *data;
+        long long int t = *data;
         t++;
         *data = t;
     }
