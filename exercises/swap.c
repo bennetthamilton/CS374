@@ -45,6 +45,7 @@ int block_seek(int fd, int block_num)
  */
 int block_write(int fd, int block_num, char *data)
 {
+    block_seek(fd, block_num);
     return write(fd, data, get_block_offset(block_num));
 }
 
@@ -55,6 +56,7 @@ int block_write(int fd, int block_num, char *data)
  */
 int block_read(int fd, int block_num, char *data)
 {
+    block_seek(fd, block_num);
     return read(fd, data, get_block_offset(block_num));
 }
 
@@ -90,7 +92,6 @@ void swap_out(int fd, int ppage_num, int block_num)
     char *ppage_start = ppage_get_start_addr(ppage_num);
 
     // write the page to disk
-    block_seek(fd, block_num);
     block_write(fd, block_num, ppage_start);
 
     // clear the page in memory
@@ -109,7 +110,6 @@ void swap_in(int fd, int ppage_num, int block_num)
     char *ppage_start = ppage_get_start_addr(ppage_num);
 
     // write the page to memory
-    block_seek(fd, block_num);
     block_read(fd, block_num, ppage_start);
 
     // clear the page on disk
