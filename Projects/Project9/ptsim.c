@@ -48,8 +48,23 @@ unsigned char get_page_table(int proc_num)
 //
 void new_process(int proc_num, int page_count)
 {
-    // get the page table for this process
-    int page_table = get_page_table(proc_num);
+    // allocate the page table
+    int page_table = 0;
+
+    // find a free page for the page table
+    for (int i = 1; i < PAGE_COUNT; i++) {
+        if (mem[get_address(0, i)] == 0) {
+            page_table = i;
+            mem[get_address(0, i)] = 1;
+            break;
+        }
+    }
+
+    // check if the allocation failed
+    if (page_table == 0) {
+        printf("OOM: proc %d: page table\n", proc_num);
+        return;
+    }
 
     // allocate page_count data pages
     for (int i = 0; i < page_count; i++) {
@@ -57,12 +72,18 @@ void new_process(int proc_num, int page_count)
         int page = 0;
 
         // find a free page
-        for (int i = 1; i < PAGE_COUNT; i++) {
-            if (mem[get_address(0, i)] == 0) {
-                page = i;
-                mem[get_address(0, i)] = 1;
+        for (int j = 1; j < PAGE_COUNT; j++) {
+            if (mem[get_address(0, j)] == 0) {
+                page = j;
+                mem[get_address(0, j)] = 1;
                 break;
             }
+        }
+
+        // check if the allocation failed
+        if (page == 0) {
+            printf("OOM: proc %d: data page\n", proc_num);
+            return;
         }
 
         // store the page number in the page table
