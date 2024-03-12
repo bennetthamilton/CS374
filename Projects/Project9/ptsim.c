@@ -119,7 +119,14 @@ int main(int argc, char *argv[])
             int proc_num = atoi(argv[++i]);
             print_page_table(proc_num);
         }
-
-        // TODO: more command line arguments
+        else if (strcmp(argv[i], "np") == 0) {
+            int proc_num = atoi(argv[++i]);
+            int page_count = atoi(argv[++i]);
+            new_process(proc_num, page_count);
+        }
+        else {
+            fprintf(stderr, "unknown command: %s\n", argv[i]);
+            return 1;
+        }
     }
 }
