@@ -48,10 +48,26 @@ unsigned char get_page_table(int proc_num)
 //
 void new_process(int proc_num, int page_count)
 {
-    (void)proc_num;   // remove after implementation
-    (void)page_count; // remove after implementation
+    // get the page table for this process
+    int page_table = get_page_table(proc_num);
 
-    // TODO
+    // allocate page_count data pages
+    for (int i = 0; i < page_count; i++) {
+        // allocate a page
+        int page = 0;
+
+        // find a free page
+        for (int i = 1; i < PAGE_COUNT; i++) {
+            if (mem[get_address(0, i)] == 0) {
+                page = i;
+                mem[get_address(0, i)] = 1;
+                break;
+            }
+        }
+
+        // store the page number in the page table
+        mem[get_address(page_table, i)] = page;
+    }
 }
 
 //
