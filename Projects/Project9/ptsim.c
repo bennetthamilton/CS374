@@ -87,7 +87,11 @@ void new_process(int proc_num, int page_count)
         }
 
         // store the page number in the page table
-        mem[get_address(page_table, i)] = page;
+        int page_table_entry = get_address(page_table, i);
+        mem[page_table_entry] = page;
+        
+        // update the corresponding entry in the page table pointer section
+        mem[get_address(0, PTP_OFFSET + proc_num)] = page_table;
     }
 }
 
