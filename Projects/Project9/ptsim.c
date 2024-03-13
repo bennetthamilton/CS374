@@ -125,9 +125,9 @@ void kill_process(int proc_num)
 }
 
 //
-// Store a value in a process's virtual memory
+// Get the physical address for a virtual address
 //
-void store_byte(int proc_num, int virt_addr, int value)
+int get_physical_address(int proc_num, int virt_addr)
 {
     // get the page table
     int page_table = get_page_table(proc_num);
@@ -141,6 +141,18 @@ void store_byte(int proc_num, int virt_addr, int value)
     int page = mem[page_table_entry];
     int phys_addr = get_address(page, offset);
 
+    return phys_addr;
+}
+
+//
+// Store a value in a process's virtual memory
+//
+void store_byte(int proc_num, int virt_addr, int value)
+{
+
+    // get the physical address from the page table
+    int phys_addr = get_physical_address(proc_num, virt_addr);
+
     // store the value
     mem[phys_addr] = value;
 
@@ -153,14 +165,14 @@ void store_byte(int proc_num, int virt_addr, int value)
 //
 int load_byte(int proc_num, int virt_addr)
 {
-    // get the page table
-    int page_table = get_page_table(proc_num);
-
-    // get the page number and offset
-
     // get the physical address
+    int phys_addr = get_physical_address(proc_num, virt_addr);
 
     // load the value
+    int value = mem[phys_addr];
+
+    // print result
+    printf("Load proc %d: %d => %d, value=%d\n", proc_num, virt_addr, phys_addr, value);
 }
 
 //
@@ -250,7 +262,6 @@ int main(int argc, char *argv[])
             int vaddr = atoi(argv[++i]);
             int addr = get_address(0, vaddr);
             int val = load_byte(proc_num, vaddr);
-            printf("Load proc %d: %d => %d, value=%d\n", proc_num, vaddr, addr, val);
         }
         else {
             fprintf(stderr, "unknown command: %s\n", argv[i]);
