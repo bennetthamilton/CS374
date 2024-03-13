@@ -112,12 +112,12 @@ void kill_process(int proc_num)
 
         if (data_page != 0)
         {
-            mem[get_address(data_page, 0)] = 0; // Free the data page
+            mem[get_address(0, data_page)] = 0; // free the data page
         }
     }
 
     // free the page table
-    mem[get_address(page_table, 0)] = 0;
+    mem[get_address(0, page_table)] = 0;
 
     // free the entry in the page table pointer section
     mem[get_address(0, PTP_OFFSET + proc_num)] = 0;
