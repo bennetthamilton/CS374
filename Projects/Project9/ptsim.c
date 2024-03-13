@@ -96,6 +96,48 @@ void new_process(int proc_num, int page_count)
 }
 
 //
+// Kill a process and free its pages
+//
+void kill_process(int proc_num)
+{
+    // get the page table
+
+    // free the page table
+
+    // free the data pages
+
+    // free the page table pointer
+}
+
+//
+// Store a value in a process's virtual memory
+//
+void store_byte(int proc_num, int virt_addr, int value)
+{
+    // get the page table
+
+    // get the page number and offset
+
+    // get the physical address
+
+    // store the value
+}
+
+//
+// Load a value from a process's virtual memory
+//
+int load_byte(int proc_num, int virt_addr)
+{
+    // get the page table
+
+    // get the page number and offset
+
+    // get the physical address
+
+    // load the value
+}
+
+//
 // Print the free page map
 //
 // Don't modify this
@@ -138,6 +180,7 @@ void print_page_table(int proc_num)
     }
 }
 
+
 //
 // Main -- process command line
 //
@@ -164,6 +207,25 @@ int main(int argc, char *argv[])
             int proc_num = atoi(argv[++i]);
             int page_count = atoi(argv[++i]);
             new_process(proc_num, page_count);
+        }
+        else if (strcmp(argv[i], "kp")) {
+            int proc_num = atoi(argv[++i]);
+            kill_process(proc_num);
+        }
+        else if (strcmp(argv[i], "sb")) {
+            int proc_num = atoi(argv[++i]);
+            int vaddr = atoi(argv[++i]);
+            int addr = get_address(0, vaddr);
+            int val = atoi(argv[++i]);
+            store_byte(proc_num, vaddr, val);
+            printf("Store proc %d: %d => %d, value=%d\n", proc_num, vaddr, addr, val);
+        }
+        else if (strcmp(argv[i], "lb")) {
+            int proc_num = atoi(argv[++i]);
+            int vaddr = atoi(argv[++i]);
+            int addr = get_address(0, vaddr);
+            int val = load_byte(proc_num, vaddr);
+            printf("Load proc %d: %d => %d, value=%d\n", proc_num, vaddr, addr, val);
         }
         else {
             fprintf(stderr, "unknown command: %s\n", argv[i]);
