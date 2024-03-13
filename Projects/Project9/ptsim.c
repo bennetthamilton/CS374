@@ -96,17 +96,32 @@ void new_process(int proc_num, int page_count)
 }
 
 //
+// Free the pages of a process
+//
+void free_page(int page)
+{
+    mem[get_address(0, page)] = 0;
+}
+
+//
 // Kill a process and free its pages
 //
 void kill_process(int proc_num)
 {
     // get the page table
+    int page_table = get_page_table(proc_num);
 
     // free the page table
+    free_page(page_table);
 
     // free the data pages
+    for (int i = 0; i < PAGE_COUNT; i++) {
+        int page_table_entry = get_address(page_table, i);
+        free_page(mem[page_table_entry]);
+    }
 
     // free the page table pointer
+    free_page(PTP_OFFSET + proc_num);
 }
 
 //
@@ -115,6 +130,7 @@ void kill_process(int proc_num)
 void store_byte(int proc_num, int virt_addr, int value)
 {
     // get the page table
+    int page_table = get_page_table(proc_num);
 
     // get the page number and offset
 
@@ -129,6 +145,7 @@ void store_byte(int proc_num, int virt_addr, int value)
 int load_byte(int proc_num, int virt_addr)
 {
     // get the page table
+    int page_table = get_page_table(proc_num);
 
     // get the page number and offset
 
