@@ -163,7 +163,7 @@ void store_byte(int proc_num, int virt_addr, int value)
 //
 // Load a value from a process's virtual memory
 //
-int load_byte(int proc_num, int virt_addr)
+void load_byte(int proc_num, int virt_addr)
 {
     // get the physical address
     int phys_addr = get_physical_address(proc_num, virt_addr);
@@ -261,7 +261,7 @@ int main(int argc, char *argv[])
             int proc_num = atoi(argv[++i]);
             int vaddr = atoi(argv[++i]);
             int addr = get_address(0, vaddr);
-            int val = load_byte(proc_num, vaddr);
+            load_byte(proc_num, vaddr);
         }
         else {
             fprintf(stderr, "unknown command: %s\n", argv[i]);
