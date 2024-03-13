@@ -259,17 +259,17 @@ int main(int argc, char *argv[])
             int page_count = atoi(argv[++i]);
             new_process(proc_num, page_count);
         }
-        else if (strcmp(argv[i], "kp")) {
+        else if (strcmp(argv[i], "kp") == 0) {
             int proc_num = atoi(argv[++i]);
             kill_process(proc_num);
         }
-        else if (strcmp(argv[i], "sb")) {
+        else if (strcmp(argv[i], "sb") == 0) {
             int proc_num = atoi(argv[++i]);
             int vaddr = atoi(argv[++i]);
             int val = atoi(argv[++i]);
             store_byte(proc_num, vaddr, val);
         }
-        else if (strcmp(argv[i], "lb")) {
+        else if (strcmp(argv[i], "lb") == 0) {
             int proc_num = atoi(argv[++i]);
             int vaddr = atoi(argv[++i]);
             load_byte(proc_num, vaddr);
