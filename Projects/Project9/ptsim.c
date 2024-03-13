@@ -117,7 +117,9 @@ void kill_process(int proc_num)
     // free the data pages
     for (int i = 0; i < PAGE_COUNT; i++) {
         int page_table_entry = get_address(page_table, i);
-        free_page(mem[page_table_entry]);
+        if (mem[page_table_entry] != 0) {
+            free_page(mem[page_table_entry]);
+        }
     }
 
     // free the page table pointer
@@ -136,9 +138,23 @@ int get_physical_address(int proc_num, int virt_addr)
     int virt_page = virt_addr >> PAGE_SHIFT;
     int offset = virt_addr & (PAGE_SIZE - 1);
 
-    // get the physical address from the page table
+    // check if the page is allocated
+    if (mem[get_address(page_table, virt_page)] == 0) {
+        printf("Page fault: proc %d: %d\n", proc_num, virt_addr);
+        return -1;
+    }
+
+    // get the page table
     int page_table_entry = get_address(page_table, virt_page);
     int page = mem[page_table_entry];
+
+    // check if the page is allocated
+    if (mem[get_address(0, page)] == 0) {
+        printf("Page fault: proc %d: %d\n", proc_num, virt_addr);
+        return -1;
+    }
+
+    // get the physical address
     int phys_addr = get_address(page, offset);
 
     return phys_addr;
@@ -253,14 +269,12 @@ int main(int argc, char *argv[])
         else if (strcmp(argv[i], "sb")) {
             int proc_num = atoi(argv[++i]);
             int vaddr = atoi(argv[++i]);
-            int addr = get_address(0, vaddr);
             int val = atoi(argv[++i]);
             store_byte(proc_num, vaddr, val);
         }
         else if (strcmp(argv[i], "lb")) {
             int proc_num = atoi(argv[++i]);
             int vaddr = atoi(argv[++i]);
-            int addr = get_address(0, vaddr);
             load_byte(proc_num, vaddr);
         }
         else {
