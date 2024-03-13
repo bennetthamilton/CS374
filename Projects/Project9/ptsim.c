@@ -133,10 +133,19 @@ void store_byte(int proc_num, int virt_addr, int value)
     int page_table = get_page_table(proc_num);
 
     // get the page number and offset
+    int virt_page = virt_addr >> PAGE_SHIFT;
+    int offset = virt_addr & (PAGE_SIZE - 1);
 
-    // get the physical address
+    // get the physical address from the page table
+    int page_table_entry = get_address(page_table, virt_page);
+    int page = mem[page_table_entry];
+    int phys_addr = get_address(page, offset);
 
     // store the value
+    mem[phys_addr] = value;
+
+    // print result
+    printf("Store proc %d: %d => %d, value=%d\n", proc_num, virt_addr, phys_addr, value);
 }
 
 //
@@ -235,7 +244,6 @@ int main(int argc, char *argv[])
             int addr = get_address(0, vaddr);
             int val = atoi(argv[++i]);
             store_byte(proc_num, vaddr, val);
-            printf("Store proc %d: %d => %d, value=%d\n", proc_num, vaddr, addr, val);
         }
         else if (strcmp(argv[i], "lb")) {
             int proc_num = atoi(argv[++i]);
