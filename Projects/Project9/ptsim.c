@@ -96,34 +96,31 @@ void new_process(int proc_num, int page_count)
 }
 
 //
-// Free the pages of a process
-//
-void free_page(int page)
-{
-    mem[get_address(0, page)] = 0;
-}
-
-//
 // Kill a process and free its pages
 //
 void kill_process(int proc_num)
 {
-    // get the page table
-    int page_table = get_page_table(proc_num);
 
-    // free the page table
-    free_page(page_table);
+    // get the page table for this process
+    unsigned char page_table = get_page_table(proc_num);
 
-    // free the data pages
-    for (int i = 0; i < PAGE_COUNT; i++) {
+    // free data pages
+    for (int i = 0; i < PAGE_COUNT; i++)
+    {
         int page_table_entry = get_address(page_table, i);
-        if (mem[page_table_entry] != 0) {
-            free_page(mem[page_table_entry]);
+        int data_page = mem[page_table_entry];
+
+        if (data_page != 0)
+        {
+            mem[get_address(data_page, 0)] = 0; // Free the data page
         }
     }
 
-    // free the page table pointer
-    free_page(PTP_OFFSET + proc_num);
+    // free the page table
+    mem[get_address(page_table, 0)] = 0;
+
+    // free the entry in the page table pointer section
+    mem[get_address(0, PTP_OFFSET + proc_num)] = 0;
 }
 
 //
@@ -132,7 +129,7 @@ void kill_process(int proc_num)
 int get_physical_address(int proc_num, int virt_addr)
 {
     // get the page table
-    int page_table = get_page_table(proc_num);
+    unsigned char page_table = get_page_table(proc_num);
 
     // get the page number and offset
     int virt_page = virt_addr >> PAGE_SHIFT;
